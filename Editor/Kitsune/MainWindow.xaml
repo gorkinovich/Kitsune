@@ -157,9 +157,12 @@
             </TabItem>
 
             <TabItem Header="Scripts">
-                <TextBox AcceptsReturn="True"
-                 HorizontalScrollBarVisibility="Auto"
-                 VerticalScrollBarVisibility="Auto"/>
+                <TextBox x:Name="CurrentScript"
+                         FontFamily="Consolas" FontSize="12"
+                         AcceptsReturn="True"
+                         HorizontalScrollBarVisibility="Auto"
+                         VerticalScrollBarVisibility="Auto"
+                         KeyDown="CurrentScript_KeyDown"/>
             </TabItem>
         </TabControl>
     </DockPanel>
