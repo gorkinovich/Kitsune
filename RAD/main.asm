@@ -1,4 +1,4 @@
-;===============================================================================
+;================================================================================
 ; Copyright (c) 2023 Gorka Suárez
 ;
 ; Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,7 +18,7 @@
 ; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ; SOFTWARE.
-;===============================================================================
+;================================================================================
 *=$0801 ; 10 SYS2064
         BYTE    $0B, $08, $0A, $00, $9E, $32, $30, $36, $34, $00, $00, $00
 
