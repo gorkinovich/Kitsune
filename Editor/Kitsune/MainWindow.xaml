@@ -1,0 +1,166 @@
+﻿<Window x:Class="Kitsune.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kitsune"
+        mc:Ignorable="d"
+        Title="Kitsune" WindowStartupLocation="CenterScreen" 
+        Height="600" Width="800" Background="{StaticResource MainBackColor}"
+        Closing="Window_Closing">
+    <!-- ==================== Resources of the window ==================== -->
+    <Window.Resources>
+        <!-- ==================== Styles of the window ==================== -->
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,1,0" CornerRadius="5,5,0,0"
+                                BorderBrush="{StaticResource TabBorderColor}" Margin="2,0">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                              HorizontalAlignment="Center" ContentSource="Header"
+                                              Margin="10,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="{StaticResource TabSelectedColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background"
+                                        Value="{StaticResource TabUnselectedColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ==================== Commands of the window ==================== -->
+        <RoutedUICommand x:Key="New" Text="{x:Static local:Resources.MI_FileNew}">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+N</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+        
+        <RoutedUICommand x:Key="Open" Text="{x:Static local:Resources.MI_FileOpen}">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+O</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+        
+        <RoutedUICommand x:Key="Save" Text="{x:Static local:Resources.MI_FileSave}">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+S</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+        
+        <RoutedUICommand x:Key="Exit" Text="{x:Static local:Resources.MI_FileExit}">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+Q</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+
+        <RoutedUICommand x:Key="Test1" Text="Test 1">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>F1</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+
+        <RoutedUICommand x:Key="Test2" Text="Test 2">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>F2</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+
+        <RoutedUICommand x:Key="Test3" Text="Test 3">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>F3</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+    </Window.Resources>
+
+    <!-- ==================== Events of the window ==================== -->
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource New}" Executed="FileNew_Command"/>
+        <CommandBinding Command="{StaticResource Open}" Executed="FileOpen_Command"/>
+        <CommandBinding Command="{StaticResource Save}" Executed="FileSave_Command"/>
+        <CommandBinding Command="{StaticResource Exit}" Executed="FileExit_Command"/>
+
+        <CommandBinding Command="{StaticResource Test1}" Executed="Test1_Command"/>
+        <CommandBinding Command="{StaticResource Test2}" Executed="Test2_Command"/>
+        <CommandBinding Command="{StaticResource Test3}" Executed="Test3_Command"/>
+    </Window.CommandBindings>
+
+    <!-- ==================== Controls of the window ==================== -->
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="{x:Static local:Resources.MI_File}"
+                      ToolTip="{x:Static local:Resources.TT_File}">
+                <MenuItem Command="{Binding Source={StaticResource New}}"/>
+                <MenuItem Command="{Binding Source={StaticResource Open}}"/>
+                <MenuItem Command="{Binding Source={StaticResource Save}}"/>
+                <Separator/>
+                <MenuItem Command="{Binding Source={StaticResource Exit}}"/>
+            </MenuItem>
+            <MenuItem Header="Tests">
+                <MenuItem Command="{Binding Source={StaticResource Test1}}"/>
+                <MenuItem Command="{Binding Source={StaticResource Test2}}"/>
+                <MenuItem Command="{Binding Source={StaticResource Test3}}"/>
+            </MenuItem>
+        </Menu>
+        
+        <StatusBar DockPanel.Dock="Bottom" Height="22">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusBarText">Commodore 64 game engine and tools</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <TabControl Margin="1" Background="{StaticResource MainBackColor}">
+            <TabItem Header="Project">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" Text="Name"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Margin="10" Text="Description"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="10"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="10"
+                             AcceptsReturn="True" TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TilesTabItem" Header="Tiles">
+                <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       MouseDown="CurrentTiles_MouseDown" MouseMove="CurrentTiles_MouseMove"
+                       MouseWheel="CurrentTiles_MouseWheel"/>
+            </TabItem>
+
+            <TabItem Header="Sprites">
+
+            </TabItem>
+
+            <TabItem Header="Menus">
+
+            </TabItem>
+
+            <TabItem Header="Levels">
+
+            </TabItem>
+
+            <TabItem Header="Scripts">
+                <TextBox AcceptsReturn="True"
+                 HorizontalScrollBarVisibility="Auto"
+                 VerticalScrollBarVisibility="Auto"/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
