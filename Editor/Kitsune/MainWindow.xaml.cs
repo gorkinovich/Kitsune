@@ -35,7 +35,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
-using MainResources = Kitsune.Resources;
+using Kitsune.Logic;
+using MainResources = Kitsune.Content.Resources;
 
 namespace Kitsune {
     /// <summary>
@@ -172,52 +173,6 @@ namespace Kitsune {
             } else {
                 currentColor = (byte) next;
             }
-        }
-
-        private void CurrentScript_KeyDown (object sender, KeyEventArgs e) {
-            string spaces = new string(' ', 4);
-            if (e.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.None) {
-                e.Handled = true;
-                if (string.IsNullOrEmpty(CurrentScript.SelectedText)) {
-                    CurrentScript.SelectedText = spaces;
-                    CurrentScript.Select(CurrentScript.SelectionStart + spaces.Length, 0);
-                } else {
-                    SelectLineBegin();
-                    var lines = CurrentScript.SelectedText.Split('\n');
-                    lines = lines.Select(x => spaces + x).ToArray();
-                    CurrentScript.SelectedText = string.Join("\n", lines);
-                }
-            } else if (e.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.Shift) {
-                e.Handled = true;
-                bool unselect = CurrentScript.SelectionLength == 0;
-                SelectLineBegin();
-                var lines = CurrentScript.SelectedText.Split('\n');
-                lines = lines.Select(x => {
-                    if (x.StartsWith(spaces)) {
-                        return x.Substring(spaces.Length);
-                    } else {
-                        return x.TrimStart();
-                    }
-                }).ToArray();
-                CurrentScript.SelectedText = string.Join("\n", lines);
-                if (unselect) {
-                    CurrentScript.Select(CurrentScript.SelectionStart + CurrentScript.SelectionLength, 0);
-                }
-
-            }
-        }
-
-        private void SelectLineBegin () {
-            var start = CurrentScript.SelectionStart;
-            var length = CurrentScript.SelectionLength;
-            var index = start;
-            while (index > 0 && CurrentScript.Text[index] != '\n') {
-                index--;
-            }
-            if (index > 0) {
-                index++;
-            }
-            CurrentScript.Select(index, start + length - index);
         }
     }
 }

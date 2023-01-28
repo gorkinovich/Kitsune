@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kitsune"
+        xmlns:content="clr-namespace:Kitsune.Content"
+        xmlns:kc="clr-namespace:Kitsune.Controls"
         mc:Ignorable="d"
         Title="Kitsune" WindowStartupLocation="CenterScreen" 
         Height="600" Width="800" Background="{StaticResource MainBackColor}"
@@ -37,25 +39,25 @@
         </Style>
 
         <!-- ==================== Commands of the window ==================== -->
-        <RoutedUICommand x:Key="New" Text="{x:Static local:Resources.MI_FileNew}">
+        <RoutedUICommand x:Key="New" Text="{x:Static content:Resources.MI_FileNew}">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+N</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
-        
-        <RoutedUICommand x:Key="Open" Text="{x:Static local:Resources.MI_FileOpen}">
+
+        <RoutedUICommand x:Key="Open" Text="{x:Static content:Resources.MI_FileOpen}">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+O</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
-        
-        <RoutedUICommand x:Key="Save" Text="{x:Static local:Resources.MI_FileSave}">
+
+        <RoutedUICommand x:Key="Save" Text="{x:Static content:Resources.MI_FileSave}">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+S</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
-        
-        <RoutedUICommand x:Key="Exit" Text="{x:Static local:Resources.MI_FileExit}">
+
+        <RoutedUICommand x:Key="Exit" Text="{x:Static content:Resources.MI_FileExit}">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+Q</KeyGesture>
             </RoutedUICommand.InputGestures>
@@ -95,8 +97,8 @@
     <!-- ==================== Controls of the window ==================== -->
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="{x:Static local:Resources.MI_File}"
-                      ToolTip="{x:Static local:Resources.TT_File}">
+            <MenuItem Header="{x:Static content:Resources.MI_File}"
+                      ToolTip="{x:Static content:Resources.TT_File}">
                 <MenuItem Command="{Binding Source={StaticResource New}}"/>
                 <MenuItem Command="{Binding Source={StaticResource Open}}"/>
                 <MenuItem Command="{Binding Source={StaticResource Save}}"/>
@@ -157,12 +159,7 @@
             </TabItem>
 
             <TabItem Header="Scripts">
-                <TextBox x:Name="CurrentScript"
-                         FontFamily="Consolas" FontSize="12"
-                         AcceptsReturn="True"
-                         HorizontalScrollBarVisibility="Auto"
-                         VerticalScrollBarVisibility="Auto"
-                         KeyDown="CurrentScript_KeyDown"/>
+                <kc:TextEditor/>
             </TabItem>
         </TabControl>
     </DockPanel>

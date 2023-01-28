@@ -21,8 +21,8 @@
 //================================================================================
 
 using System.Globalization;
+using System.Threading;
 using System.Windows;
-using MainResources = Kitsune.Resources;
 
 namespace Kitsune {
     /// <summary>
@@ -36,7 +36,7 @@ namespace Kitsune {
         protected override void OnStartup (StartupEventArgs e) {
             base.OnStartup(e);
 #if DEBUG
-            MainResources.Culture = new CultureInfo("es-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
 #endif
         }
     }

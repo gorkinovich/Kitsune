@@ -27,43 +27,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace Kitsune {
+namespace Kitsune.Logic {
     /// <summary>
-    /// The Kitsune editor controller.
+    /// The Kitsune editor model data.
     /// </summary>
-    public class Controller {
-        //------------------------------------------------------------------------
-        // Fields
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// The main instance of the controller.
-        /// </summary>
-        private static Controller instance = new Controller();
-
-        /// <summary>
-        /// The current data of the
-        /// </summary>
-        private Model model = new Model();
-
+    public class Model {
         //------------------------------------------------------------------------
         // Properties
         //------------------------------------------------------------------------
 
         /// <summary>
-        /// Gets the main instance of the controller.
+        /// Gets or sets the main palette of the C64.
         /// </summary>
-        public static Controller Instance => instance;
-
-        /// <summary>
-        /// Gets if the current data has been modified.
-        /// </summary>
-        public bool Modified { get; private set; }
-
-        /// <summary>
-        /// Gets the main palette of the C64.
-        /// </summary>
-        public BitmapPalette Palette => model.Palette;
+        public BitmapPalette Palette { get; set; }
 
         //------------------------------------------------------------------------
         // Methods
@@ -72,7 +48,8 @@ namespace Kitsune {
         /// <summary>
         /// Makes a new object of the class.
         /// </summary>
-        private Controller () {
+        public Model () {
+            Palette = Palettes.CCS64();
         }
     }
 }
