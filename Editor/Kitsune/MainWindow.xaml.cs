@@ -36,6 +36,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using Kitsune.Logic;
+using Kitsune.Controls;
 using MainResources = Kitsune.Content.Resources;
 
 namespace Kitsune {
@@ -77,21 +78,14 @@ namespace Kitsune {
         private WriteableBitmap currentBitmap = null;
         private byte currentColor = 1;
         private bool currentEditable = false;
+        private Color gridColor = new Color() { A = 0xFF, R = 0xFF, G = 0xFF, B = 0xFF };
 
         private void Test1_Command (object sender, RoutedEventArgs e) {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            var format = PixelFormats.Bgr24;
-            int depth = format.BitsPerPixel / 8;
-            int width = 640;
-            int height = 480;
-
-            currentBitmap = new WriteableBitmap(width, height, 96, 96, format, null);
-            byte[] pixels = new byte[width * height * depth];
-            Random random = new Random();
-            random.NextBytes(pixels);
-            currentBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, width * depth, 0);
+            currentBitmap = ImageTools.CreateRGB(320, 200);
+            currentBitmap.WriteRandomPixels();
             CurrentTiles.Source = currentBitmap;
         }
 
@@ -99,15 +93,8 @@ namespace Kitsune {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            var format = PixelFormats.Indexed4;
-            int width = 320;
-            int height = 200;
-
-            currentBitmap = new WriteableBitmap(width, height, 96, 96, format, Controller.Instance.Palette);
-            byte[] pixels = new byte[width * height / 2];
-            Random random = new Random();
-            random.NextBytes(pixels);
-            currentBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, width / 2, 0);
+            currentBitmap = ImageTools.CreateIndexed4(320, 200, Controller.Instance.Palette);
+            currentBitmap.WriteRandomPixels();
             CurrentTiles.Source = currentBitmap;
         }
 
@@ -115,50 +102,29 @@ namespace Kitsune {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            var format = PixelFormats.Indexed8;
-            int width = 320;
-            int height = 200;
-
-            currentBitmap = new WriteableBitmap(width, height, 96, 96, format, Controller.Instance.Palette);
-            byte[] pixels = new byte[width * height];
-            currentBitmap.WritePixels(new Int32Rect(0, 0, width, height), pixels, width, 0);
+            currentBitmap = ImageTools.CreateIndexed8(320, 200, Controller.Instance.Palette);
+            currentBitmap.ClearPixels();
             CurrentTiles.Source = currentBitmap;
-
+            TilesGrid.Source = ImageTools.CreateGrid(currentBitmap, gridColor, 16, 1);
             currentEditable = true;
         }
 
-        private void DrawPixel (int x, int y, byte color) {
+        private void CurrentTilesChange (Point position, MouseButtonState left, MouseButtonState right) {
             if (currentBitmap != null && currentEditable) {
-                int width = currentBitmap.PixelWidth;
-                int height = currentBitmap.PixelHeight;
-                if (0 <= x && x < width && 0 <= y && y < height) {
-                    var pixels = new byte[] { color };
-                    currentBitmap.WritePixels(new Int32Rect(x, y, 1, 1), pixels, 1, 0);
+                if (left == MouseButtonState.Pressed) {
+                    currentBitmap.WritePixel(position, currentColor);
+                } else if (right == MouseButtonState.Pressed) {
+                    currentBitmap.WritePixel(position, 0);
                 }
             }
         }
 
-        private void CurrentTilesChange (Point position, MouseButtonState left, MouseButtonState right) {
-            if (left == MouseButtonState.Pressed) {
-                DrawPixel((int) position.X, (int) position.Y, currentColor);
-            } else if (right == MouseButtonState.Pressed) {
-                DrawPixel((int) position.X, (int) position.Y, 0);
-            }
-        }
-
-        private Point GetCoordinates(MouseEventArgs e) {
-            var position = e.GetPosition(CurrentTiles);
-            var widthFactor = currentBitmap.Width / CurrentTiles.ActualWidth;
-            var heightFactor = currentBitmap.Height / CurrentTiles.ActualHeight;
-            return new Point(position.X * widthFactor, position.Y * heightFactor);
-        }
-
         private void CurrentTiles_MouseDown (object sender, MouseButtonEventArgs e) {
-            CurrentTilesChange(GetCoordinates(e), e.LeftButton, e.RightButton);
+            CurrentTilesChange(CurrentTiles.GetSourceCoordinates(e), e.LeftButton, e.RightButton);
         }
 
         private void CurrentTiles_MouseMove (object sender, MouseEventArgs e) {
-            var position = GetCoordinates(e);
+            var position = CurrentTiles.GetSourceCoordinates(e);
             CurrentTilesChange(position, e.LeftButton, e.RightButton);
             StatusBarText.Text = $"Drawing in ({position.X}, {position.Y}) of "
                 + $" ({CurrentTiles.Source.Width}, {CurrentTiles.Source.Height})";
@@ -172,6 +138,101 @@ namespace Kitsune {
                 currentColor = 15;
             } else {
                 currentColor = (byte) next;
+            }
+        }
+
+        private int test_separation = 16, test_offset = 1;
+
+        private void Window_KeyDown (object sender, KeyEventArgs e) {
+            if (TilesTabItem.IsFocused) {
+                bool updateGrid = false;
+
+                switch (e.Key) {
+                    case Key.F5:
+                        RenderOptions.SetBitmapScalingMode(TilesGrid, BitmapScalingMode.Fant);
+                        e.Handled = true;
+                        break;
+
+                    case Key.F6:
+                        RenderOptions.SetBitmapScalingMode(TilesGrid, BitmapScalingMode.HighQuality);
+                        e.Handled = true;
+                        break;
+
+                    case Key.F7:
+                        RenderOptions.SetBitmapScalingMode(TilesGrid, BitmapScalingMode.Linear);
+                        e.Handled = true;
+                        break;
+
+                    case Key.F8:
+                        RenderOptions.SetBitmapScalingMode(TilesGrid, BitmapScalingMode.NearestNeighbor);
+                        e.Handled = true;
+                        break;
+
+                    case Key.D1:
+                        test_separation = 2;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.D2:
+                        test_separation = 4;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.D3:
+                        test_separation = 8;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.D4:
+                        test_separation = 16;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.D5:
+                        test_separation = 24;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.D6:
+                        test_separation = 32;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.Q:
+                        test_offset = 1;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.W:
+                        test_offset = 2;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.E:
+                        test_offset = 3;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+
+                    case Key.R:
+                        test_offset = 4;
+                        updateGrid = true;
+                        e.Handled = true;
+                        break;
+                }
+
+                if (updateGrid) {
+                    TilesGrid.Source = ImageTools.CreateGrid(currentBitmap,
+                        gridColor, test_separation, test_offset);
+                }
             }
         }
     }

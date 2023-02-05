@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="Kitsune" WindowStartupLocation="CenterScreen" 
         Height="600" Width="800" Background="{StaticResource MainBackColor}"
-        Closing="Window_Closing">
+        Closing="Window_Closing" KeyDown="Window_KeyDown">
     <!-- ==================== Resources of the window ==================== -->
     <Window.Resources>
         <!-- ==================== Styles of the window ==================== -->
@@ -120,30 +120,35 @@
 
         <TabControl Margin="1" Background="{StaticResource MainBackColor}">
             <TabItem Header="Project">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" Text="Name"
-                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Column="0" Grid.Row="1" Margin="10" Text="Description"
-                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="10"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="10"
-                             AcceptsReturn="True" TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto"/>
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" Text="Name"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="10" Text="Description"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="10"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="10"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem x:Name="TilesTabItem" Header="Tiles">
-                <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"
-                       MouseDown="CurrentTiles_MouseDown" MouseMove="CurrentTiles_MouseMove"
-                       MouseWheel="CurrentTiles_MouseWheel"/>
+                <Grid MouseDown="CurrentTiles_MouseDown" MouseMove="CurrentTiles_MouseMove"
+                      MouseWheel="CurrentTiles_MouseWheel">
+                    <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    <Image x:Name="TilesGrid" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Grid>
             </TabItem>
 
             <TabItem Header="Sprites">
