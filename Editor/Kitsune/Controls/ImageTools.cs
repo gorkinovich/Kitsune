@@ -26,7 +26,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 
 namespace Kitsune.Controls {
     /// <summary>
@@ -254,6 +253,30 @@ namespace Kitsune.Controls {
         }
 
         /// <summary>
+        /// Checks if a position is inside the bitmap.
+        /// </summary>
+        /// <param name="value">The bitmap instance.</param>
+        /// <param name="position">The position to check.</param>
+        /// <returns><c>true</c> if the position is inside the bitmap;
+        /// otherwise <c>false</c>.</returns>
+        public static bool IsInside (this WriteableBitmap value, Point position) {
+            return 0 <= position.X && position.X < value.Width
+                && 0 <= position.Y && position.Y < value.Height;
+        }
+
+        /// <summary>
+        /// Checks if a position is inside the bitmap.
+        /// </summary>
+        /// <param name="value">The bitmap instance.</param>
+        /// <param name="x">The x position of the pixel.</param>
+        /// <param name="y">The y position of the pixel.</param>
+        /// <returns><c>true</c> if the position is inside the bitmap;
+        /// otherwise <c>false</c>.</returns>
+        public static bool IsInside (this WriteableBitmap value, int x, int y) {
+            return 0 <= x && x < value.PixelWidth && 0 <= y && y < value.PixelHeight;
+        }
+
+        /// <summary>
         /// Writes a pixel inside a bitmap.
         /// </summary>
         /// <param name="value">The bitmap instance.</param>
@@ -300,15 +323,6 @@ namespace Kitsune.Controls {
                 value.WritePixels(new Int32Rect(x, y, OnePixelWidth, OnePixelHeight),
                     color, value.GetStride(OnePixelWidth), 0);
             }
-        }
-
-        public static bool IsInside (this WriteableBitmap value, Point position) {
-            return 0 <= position.X && position.X < value.Width
-                && 0 <= position.Y && position.Y < value.Height;
-        }
-
-        public static bool IsInside (this WriteableBitmap value, int x, int y) {
-            return 0 <= x && x < value.PixelWidth && 0 <= y && y < value.PixelHeight;
         }
 
         /// <summary>
