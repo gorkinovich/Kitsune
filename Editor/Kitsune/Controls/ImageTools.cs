@@ -39,118 +39,63 @@ namespace Kitsune.Controls {
         /// <summary>
         /// How many bits per byte there are.
         /// </summary>
-        private const int bitsPerByte = 8;
-
-        /// <summary>
-        /// The default DPI for a source image.
-        /// </summary>
-        public const int DefaultDPI = 96;
+        public const int BitsPerByte = 8;
 
         //------------------------------------------------------------------------
-        // Methods
+        // Methods (Pixels & Colors)
         //------------------------------------------------------------------------
 
         /// <summary>
-        /// Creates a RGBA (32 bits) writeable bitmap object to work with it.
+        /// Sets the color of a pixel inside an array of bytes.
         /// </summary>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="height">The height of the image.</param>
-        /// <param name="dpi">The dots per inch of the image.</param>
-        /// <returns>The new instance created of the image.</returns>
-        public static WriteableBitmap CreateARGB (int width, int height, int dpi = DefaultDPI) {
-            return new WriteableBitmap(width, height, dpi, dpi, PixelFormats.Bgra32, null);
+        /// <param name="pixels">The array of bytes to change.</param>
+        /// <param name="index">The index of the pixel.</param>
+        /// <param name="color">The color of the pixel.</param>
+        public static void SetARGB (byte[] pixels, int index, Color color) {
+            pixels[index] = color.B;
+            pixels[index + 1] = color.G;
+            pixels[index + 2] = color.R;
+            pixels[index + 3] = color.A;
         }
 
         /// <summary>
-        /// Creates a RGB (24 bits) writeable bitmap object to work with it.
+        /// Sets the color of a pixel inside an array of bytes.
         /// </summary>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="height">The height of the image.</param>
-        /// <param name="dpi">The dots per inch of the image.</param>
-        /// <returns>The new instance created of the image.</returns>
-        public static WriteableBitmap CreateRGB (int width, int height, int dpi = DefaultDPI) {
-            return new WriteableBitmap(width, height, dpi, dpi, PixelFormats.Bgr24, null);
+        /// <param name="pixels">The array of bytes to change.</param>
+        /// <param name="index">The index of the pixel.</param>
+        /// <param name="color">The color of the pixel.</param>
+        public static void SetRGB (byte[] pixels, int index, Color color) {
+            pixels[index] = color.B;
+            pixels[index + 1] = color.G;
+            pixels[index + 2] = color.R;
         }
 
         /// <summary>
-        /// Creates 256 colors (8 bits) a writeable bitmap object to work with it.
+        /// Transforms an array of bytes into a color object.
         /// </summary>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="height">The height of the image.</param>
-        /// <param name="palette">The palette of the image.</param>
-        /// <param name="dpi">The dots per inch of the image.</param>
-        /// <returns>The new instance created of the image.</returns>
-        public static WriteableBitmap CreateIndexed8 (int width, int height, BitmapPalette palette, int dpi = DefaultDPI) {
-            return new WriteableBitmap(width, height, dpi, dpi, PixelFormats.Indexed8, palette);
+        /// <param name="color">The value to transform.</param>
+        /// <returns>The transformed value.</returns>
+        public static Color BytesToColor (byte[] color) {
+            return new Color() {
+                B = color?[0] ?? 0,
+                G = color?[1] ?? 0,
+                R = color?[2] ?? 0,
+                A = color?[3] ?? 0
+            };
         }
 
         /// <summary>
-        /// Creates 16 colors (4 bits) a writeable bitmap object to work with it.
+        /// Transforms a color object into an array of bytes.
         /// </summary>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="height">The height of the image.</param>
-        /// <param name="palette">The palette of the image.</param>
-        /// <param name="dpi">The dots per inch of the image.</param>
-        /// <returns>The new instance created of the image.</returns>
-        public static WriteableBitmap CreateIndexed4 (int width, int height, BitmapPalette palette, int dpi = DefaultDPI) {
-            return new WriteableBitmap(width, height, dpi, dpi, PixelFormats.Indexed4, palette);
-        }
-
-        /// <summary>
-        /// Creates a writeable bitmap with a grid drawn in it.
-        /// </summary>
-        /// <param name="source">The source bitmap that will be used with the grid.</param>
-        /// <param name="color">The color of the lines of the grid.</param>
-        /// <param name="separation">The separation between lines.</param>
-        /// <param name="offset">The separation between dots in the line.</param>
-        /// <param name="dpi">The dots per inch of the grid.</param>
-        /// <returns>The new instance created of the grid.</returns>
-        public static WriteableBitmap CreateGrid (BitmapSource source, Color color, int separation, int offset = 1, int dpi = DefaultDPI) {
-            return CreateGrid(source.PixelWidth, source.PixelHeight, color, separation, offset, dpi);
-        }
-
-        /// <summary>
-        /// Creates a writeable bitmap with a grid drawn in it.
-        /// </summary>
-        /// <param name="width">The width of the grid.</param>
-        /// <param name="height">The height of the grid.</param>
-        /// <param name="color">The color of the lines of the grid.</param>
-        /// <param name="separation">The separation between lines.</param>
-        /// <param name="offset">The separation between dots in the line.</param>
-        /// <param name="dpi">The dots per inch of the grid.</param>
-        /// <returns>The new instance created of the grid.</returns>
-        public static WriteableBitmap CreateGrid (int width, int height, Color color, int separation, int offset = 1, int dpi = DefaultDPI) {
-            // First, we will create the bitmap object:
-            width = width * separation + 1;
-            height = height * separation + 1;
-            var bitmap = CreateARGB(width, height, dpi);
-            // Second, we will configure a transform function for coordinates:
-            var stride = bitmap.GetStride();
-            var depth = bitmap.GetDepth();
-            Func<int, int, int> transform = (x, y) => y * stride + x * depth;
-            // Then, we will paint the lines of the grid and return the object:
-            bitmap.WritePixels(pixels => {
-                for (int y = 0; y < height; y += separation) {
-                    for (int x = 0; x < width; x += offset) {
-                        var cell = transform(x, y);
-                        pixels[cell] = color.B;
-                        pixels[cell + 1] = color.G;
-                        pixels[cell + 2] = color.R;
-                        pixels[cell + 3] = color.A;
-                    }
-                }
-
-                for (int x = 0; x < width; x += separation) {
-                    for (int y = 0; y < height; y += offset) {
-                        var cell = transform(x, y);
-                        pixels[cell] = color.B;
-                        pixels[cell + 1] = color.G;
-                        pixels[cell + 2] = color.R;
-                        pixels[cell + 3] = color.A;
-                    }
-                }
-            });
-            return bitmap;
+        /// <param name="color">The value to transform.</param>
+        /// <returns>The transformed value.</returns>
+        public static byte[] ColorToBytes (Color color) {
+            return new byte[] {
+                color.B,
+                color.G,
+                color.R,
+                color.A
+            };
         }
 
         //------------------------------------------------------------------------
@@ -198,7 +143,7 @@ namespace Kitsune.Controls {
         /// <param name="value">The bitmap instance.</param>
         /// <returns>The number of bytes of the depth.</returns>
         public static int GetDepth (this WriteableBitmap value) {
-            return value.Format.BitsPerPixel / bitsPerByte;
+            return value.Format.BitsPerPixel / BitsPerByte;
         }
 
         /// <summary>
@@ -207,7 +152,7 @@ namespace Kitsune.Controls {
         /// <param name="value">The bitmap instance.</param>
         /// <returns>The number of bytes of the depth.</returns>
         public static double GetRealDepth (this WriteableBitmap value) {
-            return ((double) value.Format.BitsPerPixel) / bitsPerByte;
+            return ((double) value.Format.BitsPerPixel) / BitsPerByte;
         }
 
         /// <summary>
@@ -216,7 +161,7 @@ namespace Kitsune.Controls {
         /// <param name="value">The bitmap instance.</param>
         /// <returns>The stride value of the bitmap.</returns>
         public static int GetStride (this WriteableBitmap value) {
-            return value.PixelWidth * value.Format.BitsPerPixel / bitsPerByte;
+            return value.PixelWidth * value.Format.BitsPerPixel / BitsPerByte;
         }
 
         /// <summary>
@@ -226,7 +171,7 @@ namespace Kitsune.Controls {
         /// <param name="width">The with of the stride.</param>
         /// <returns>The stride value of the bitmap.</returns>
         public static int GetStride (this WriteableBitmap value, int width) {
-            return width * value.Format.BitsPerPixel / bitsPerByte;
+            return width * value.Format.BitsPerPixel / BitsPerByte;
         }
 
         /// <summary>
@@ -331,17 +276,25 @@ namespace Kitsune.Controls {
         /// <param name="value">The bitmap instance.</param>
         /// <param name="render">The on render event function.</param>
         public static void WritePixels (this WriteableBitmap value, Action<byte[]> render) {
-            // Set the configuration values of the buffer:
-            var width = value.PixelWidth;
-            var height = value.PixelHeight;
-            var stride = width * value.Format.BitsPerPixel / bitsPerByte;
+            value.WritePixels(new Int32Rect(0, 0, value.PixelWidth, value.PixelHeight), render);
+        }
+
+        /// <summary>
+        /// Writes some random pixels inside a bitmap.
+        /// </summary>
+        /// <param name="value">The bitmap instance.</param>
+        /// <param name="source">The rectangle to write.</param>
+        /// <param name="render">The on render event function.</param>
+        public static void WritePixels (this WriteableBitmap value, Int32Rect source,
+            Action<byte[]> render) {
             // Create the buffer and render some pixels on it:
-            byte[] pixels = new byte[height * stride];
+            var stride = source.Width * value.Format.BitsPerPixel / BitsPerByte;
+            byte[] pixels = new byte[source.Height * stride];
             if (render != null) {
                 render(pixels);
             }
-            // Finally, write the buffer on the bitmap object:
-            value.WritePixels(new Int32Rect(0, 0, width, height), pixels, stride, 0);
+            // Then, write the buffer on the bitmap object:
+            value.WritePixels(source, pixels, stride, 0);
         }
 
         /// <summary>

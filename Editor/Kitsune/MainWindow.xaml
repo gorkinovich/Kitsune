@@ -152,11 +152,11 @@
             </TabItem>
 
             <TabItem Header="Sprites">
-
+                <kc:BitmapEditor x:Name="CurrentSprite" EnableGrid="True" GridColor="#FFFF00FF"/>
             </TabItem>
 
             <TabItem Header="Menus">
-
+                
             </TabItem>
 
             <TabItem Header="Levels">

@@ -78,13 +78,21 @@ namespace Kitsune {
         private WriteableBitmap currentBitmap = null;
         private byte currentColor = 1;
         private bool currentEditable = false;
-        private Color gridColor = new Color() { A = 0xFF, R = 0xFF, G = 0xFF, B = 0xFF };
+        private BitmapGridTemplate gridTemplate = new BitmapGridTemplate {
+            Source = new BitmapTemplate { Width = 320, Height = 200 },
+            Color = new Color { A = 0xFF, R = 0xFF, G = 0xFF, B = 0xFF },
+            Separation = 16,
+            OffsetX = 1,
+            OffsetY = 1,
+            CellSizeX = 8,
+            CellSizeY = 8
+        };
 
         private void Test1_Command (object sender, RoutedEventArgs e) {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            currentBitmap = ImageTools.CreateRGB(320, 200);
+            currentBitmap = ImageFactory.CreateRGB(320, 200);
             currentBitmap.WriteRandomPixels();
             CurrentTiles.Source = currentBitmap;
         }
@@ -93,7 +101,7 @@ namespace Kitsune {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            currentBitmap = ImageTools.CreateIndexed4(320, 200, Controller.Instance.Palette);
+            currentBitmap = ImageFactory.CreateIndexed4(320, 200, Controller.Instance.Palette);
             currentBitmap.WriteRandomPixels();
             CurrentTiles.Source = currentBitmap;
         }
@@ -102,10 +110,10 @@ namespace Kitsune {
             TilesTabItem.Focus();
             currentEditable = false;
 
-            currentBitmap = ImageTools.CreateIndexed8(320, 200, Controller.Instance.Palette);
+            currentBitmap = ImageFactory.CreateIndexed8(320, 200, Controller.Instance.Palette);
             currentBitmap.ClearPixels();
             CurrentTiles.Source = currentBitmap;
-            TilesGrid.Source = ImageTools.CreateGrid(currentBitmap, gridColor, 16, 1);
+            TilesGrid.Source = ImageFactory.CreateFrom(gridTemplate);
             currentEditable = true;
         }
 
@@ -141,8 +149,6 @@ namespace Kitsune {
             }
         }
 
-        private int test_separation = 16, test_offset = 1;
-
         private void Window_KeyDown (object sender, KeyEventArgs e) {
             if (TilesTabItem.IsFocused) {
                 bool updateGrid = false;
@@ -169,69 +175,68 @@ namespace Kitsune {
                         break;
 
                     case Key.D1:
-                        test_separation = 2;
+                        gridTemplate.Separation = 2;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.D2:
-                        test_separation = 4;
+                        gridTemplate.Separation = 4;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.D3:
-                        test_separation = 8;
+                        gridTemplate.Separation = 8;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.D4:
-                        test_separation = 16;
+                        gridTemplate.Separation = 16;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.D5:
-                        test_separation = 24;
+                        gridTemplate.Separation = 24;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.D6:
-                        test_separation = 32;
+                        gridTemplate.Separation = 32;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.Q:
-                        test_offset = 1;
+                        gridTemplate.Offset = 1;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.W:
-                        test_offset = 2;
+                        gridTemplate.Offset = 2;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.E:
-                        test_offset = 3;
+                        gridTemplate.Offset = 3;
                         updateGrid = true;
                         e.Handled = true;
                         break;
 
                     case Key.R:
-                        test_offset = 4;
+                        gridTemplate.Offset = 4;
                         updateGrid = true;
                         e.Handled = true;
                         break;
                 }
 
                 if (updateGrid) {
-                    TilesGrid.Source = ImageTools.CreateGrid(currentBitmap,
-                        gridColor, test_separation, test_offset);
+                    TilesGrid.Source = ImageFactory.CreateFrom(gridTemplate);
                 }
             }
         }

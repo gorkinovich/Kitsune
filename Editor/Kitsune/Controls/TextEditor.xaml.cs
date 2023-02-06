@@ -40,10 +40,46 @@ namespace Kitsune.Controls {
     /// Interaction logic for TextEditor.xaml
     /// </summary>
     public partial class TextEditor : UserControl {
+        //------------------------------------------------------------------------
+        // Constants, Fields & Properties
+        //------------------------------------------------------------------------
+
+        //------------------------------------------------------------------------
+        // Methods
+        //------------------------------------------------------------------------
+
+        /// <summary>
+        /// Makes a new object of the class.
+        /// </summary>
         public TextEditor () {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Changes the text box selection to include the whole initial line. 
+        /// </summary>
+        private void SelectLineBegin () {
+            var start = InnerTextBox.SelectionStart;
+            var length = InnerTextBox.SelectionLength;
+            var index = start;
+            while (index > 0 && InnerTextBox.Text[index] != '\n') {
+                index--;
+            }
+            if (index > 0) {
+                index++;
+            }
+            InnerTextBox.Select(index, start + length - index);
+        }
+
+        //------------------------------------------------------------------------
+        // Callbacks
+        //------------------------------------------------------------------------
+
+        /// <summary>
+        /// Callback for the key down event for the <c>TextBox</c>.
+        /// </summary>
+        /// <param name="sender">The object where the event handler is attached.</param>
+        /// <param name="e">The event data.</param>
         private void InnerTextBox_KeyDown (object sender, KeyEventArgs e) {
             string spaces = new string(' ', 4);
             if (e.Key == Key.Tab && Keyboard.Modifiers == ModifierKeys.None) {
@@ -74,19 +110,6 @@ namespace Kitsune.Controls {
                     InnerTextBox.Select(InnerTextBox.SelectionStart + InnerTextBox.SelectionLength, 0);
                 }
             }
-        }
-
-        private void SelectLineBegin () {
-            var start = InnerTextBox.SelectionStart;
-            var length = InnerTextBox.SelectionLength;
-            var index = start;
-            while (index > 0 && InnerTextBox.Text[index] != '\n') {
-                index--;
-            }
-            if (index > 0) {
-                index++;
-            }
-            InnerTextBox.Select(index, start + length - index);
         }
     }
 }
