@@ -46,6 +46,8 @@ namespace Kitsune {
     public partial class MainWindow : Window {
         public MainWindow () {
             InitializeComponent();
+            CurrentSprite.SurfacePalette = Controller.Instance.Palette;
+            CurrentSprite.GenerateBitmaps();
         }
 
         private void FileNew_Command (object sender, RoutedEventArgs e) {
@@ -82,10 +84,8 @@ namespace Kitsune {
             Source = new BitmapTemplate { Width = 320, Height = 200 },
             Color = new Color { A = 0xFF, R = 0xFF, G = 0xFF, B = 0xFF },
             Separation = 16,
-            OffsetX = 1,
-            OffsetY = 1,
-            CellSizeX = 8,
-            CellSizeY = 8
+            Offset = 1,
+            CellSize = 8
         };
 
         private void Test1_Command (object sender, RoutedEventArgs e) {

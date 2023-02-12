@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kitsune"
         xmlns:content="clr-namespace:Kitsune.Content"
+        xmlns:logic="clr-namespace:Kitsune.Logic"
         xmlns:kc="clr-namespace:Kitsune.Controls"
         mc:Ignorable="d"
         Title="Kitsune" WindowStartupLocation="CenterScreen" 
@@ -152,7 +153,9 @@
             </TabItem>
 
             <TabItem Header="Sprites">
-                <kc:BitmapEditor x:Name="CurrentSprite" EnableGrid="True" GridColor="#FFFF00FF"/>
+                <kc:BitmapEditor x:Name="CurrentSprite" Editable="True" EnableGrid="True"
+                                 SurfaceWidth="24" SurfaceHeight="21" SurfaceFormat="Indexed"
+                                 GridColor="#FFBB00BB" ForegroundIndex="1" BackgroundIndex="0"/>
             </TabItem>
 
             <TabItem Header="Menus">

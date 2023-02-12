@@ -229,12 +229,12 @@ namespace Kitsune.Controls {
         /// <summary>
         /// The width of the image.
         /// </summary>
-        public int Width;
+        public int Width = 0;
 
         /// <summary>
         /// The width of the image.
         /// </summary>
-        public int Height;
+        public int Height = 0;
 
         /// <summary>
         /// The dots per inch of the image.
@@ -263,17 +263,17 @@ namespace Kitsune.Controls {
         /// <summary>
         /// The source builder of the grid image.
         /// </summary>
-        public BitmapTemplate Source;
+        public BitmapTemplate Source = null;
 
         /// <summary>
         /// The color of the lines of the grid.
         /// </summary>
-        public Color Color;
+        public Color Color = new Color { A = 0xFF, R = 0x00, G = 0x00, B = 0x00 };
 
         /// <summary>
         /// The separation between lines in the grid.
         /// </summary>
-        public int Separation;
+        public int Separation = 16;
 
         /// <summary>
         /// The x-separation between dots in the line.

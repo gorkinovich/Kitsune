@@ -20,20 +20,11 @@
 // SOFTWARE.
 //================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Kitsune.Controls {
     /// <summary>
@@ -49,7 +40,7 @@ namespace Kitsune.Controls {
         /// of the bitmap editor.
         /// </summary>
         public enum Format {
-            ARGB, RGB, Indexed
+            ARGB, RGB, Indexed, Unknown
         }
 
         //------------------------------------------------------------------------
@@ -125,23 +116,104 @@ namespace Kitsune.Controls {
         // Fields & Properties (Configuration)
         //------------------------------------------------------------------------
 
-        public int SurfaceWidth { get; set; }
+        /// <summary>
+        /// The main source bitmap template of the editor.
+        /// </summary>
+        private BitmapTemplate surfaceTemplate = new BitmapTemplate();
 
-        public int SurfaceHeight { get; set; }
+        /// <summary>
+        /// The grid source bitmap template of the editor.
+        /// </summary>
+        private BitmapGridTemplate gridTemplate = new BitmapGridTemplate();
 
-        public Format SurfaceFormat { get; set; }
+        /// <summary>
+        /// Gets or sets the width of the main source bitmap.
+        /// </summary>
+        public int SurfaceWidth {
+            get => surfaceTemplate.Width;
+            set => surfaceTemplate.Width = value;
+        }
 
-        public Color GridColor { get; set; }
+        /// <summary>
+        /// Gets or sets the height of the main source bitmap.
+        /// </summary>
+        public int SurfaceHeight {
+            get => surfaceTemplate.Height;
+            set => surfaceTemplate.Height = value;
+        }
 
-        public int GridSeparation { get; set; }
+        /// <summary>
+        /// Gets or sets the format of the main source bitmap.
+        /// </summary>
+        public Format SurfaceFormat {
+            get => surfaceTemplate.Format.BitsPerPixel switch {
+                32 => Format.ARGB,
+                24 => Format.RGB,
+                8 => Format.Indexed,
+                _ => Format.Unknown
+            };
+            set => surfaceTemplate.Format = value switch {
+                Format.Indexed => PixelFormats.Indexed8,
+                Format.RGB => PixelFormats.Bgr24,
+                _ => PixelFormats.Bgra32
+            };
+        }
 
-        public int GridOffsetX { get; set; }
+        /// <summary>
+        /// Gets or sets the palette of the main source bitmap.
+        /// </summary>
+        public BitmapPalette SurfacePalette {
+            get => surfaceTemplate.Palette;
+            set => surfaceTemplate.Palette = value;
+        }
 
-        public int GridOffsetY { get; set; }
+        /// <summary>
+        /// Gets or sets the color of the grid source bitmap.
+        /// </summary>
+        public Color GridColor {
+            get => gridTemplate.Color;
+            set => gridTemplate.Color = value;
+        }
 
-        public int GridCellSizeX { get; set; }
+        /// <summary>
+        /// Gets or sets the separation of the grid source bitmap.
+        /// </summary>
+        public int GridSeparation {
+            get => gridTemplate.Separation;
+            set => gridTemplate.Separation = value;
+        }
 
-        public int GridCellSizeY { get; set; }
+        /// <summary>
+        /// Gets or sets the x-offset of the grid source bitmap.
+        /// </summary>
+        public int GridOffsetX {
+            get => gridTemplate.OffsetX;
+            set => gridTemplate.OffsetX = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the y-offset of the grid source bitmap.
+        /// </summary>
+        public int GridOffsetY {
+            get => gridTemplate.OffsetY;
+            set => gridTemplate.OffsetY = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the x-cell size of the grid source bitmap.
+        /// </summary>
+        public int GridCellSizeX {
+            get => gridTemplate.CellSizeX;
+            set => gridTemplate.CellSizeX = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the y-cell size of the grid source bitmap.
+        /// </summary>
+        public int GridCellSizeY {
+            get => gridTemplate.CellSizeY;
+            set => gridTemplate.CellSizeY = value;
+        }
 
         //------------------------------------------------------------------------
         // Methods
@@ -170,17 +242,48 @@ namespace Kitsune.Controls {
             RenderOptions.SetBitmapScalingMode(BitmapGrid, mode);
         }
 
-        public void UpdateBitmaps () {
-            //...
+        /// <summary>
+        /// Generates the source bitmaps of the editor.
+        /// </summary>
+        public void GenerateBitmaps () {
+            GenerateSurfaceBitmap();
+            GenerateGridBitmap();
         }
 
+        /// <summary>
+        /// Generates the main source bitmap of the editor.
+        /// </summary>
+        public void GenerateSurfaceBitmap () {
+            if (surfaceTemplate != null) {
+                databmp = ImageFactory.CreateFrom(surfaceTemplate);
+                databmp.ClearPixels();
+                BitmapData.Source = databmp;
+            }
+        }
+
+        /// <summary>
+        /// Generates the grid source bitmap of the editor.
+        /// </summary>
+        public void GenerateGridBitmap () {
+            if (gridTemplate != null) {
+                gridTemplate.Source = surfaceTemplate;
+                gridbmp = ImageFactory.CreateFrom(gridTemplate);
+                BitmapGrid.Source = gridbmp;
+            }
+        }
+
+        /// <summary>
+        /// Shows or hides the grid source bitmap of the editor.
+        /// </summary>
+        /// <param name="value">The visibility flag.</param>
         public void ShowGrid (bool value) {
             if (value) {
+                GenerateGridBitmap();
                 BitmapGrid.Visibility = Visibility.Visible;
-                //...
             } else {
                 BitmapGrid.Visibility = Visibility.Hidden;
-                //...
+                gridbmp = null;
+                BitmapGrid.Source = gridbmp;
             }
         }
 
@@ -189,14 +292,27 @@ namespace Kitsune.Controls {
         //------------------------------------------------------------------------
 
         /// <summary>
+        /// Writes a pixel in the main source bitmap of the editor.
+        /// </summary>
+        /// <param name="e">The mouse event data.</param>
+        private void WritePixelWithMouse (MouseEventArgs e) {
+            if (Editable && databmp != null) {
+                var position = BitmapData.GetSourceCoordinates(e);
+                if (e.LeftButton == MouseButtonState.Pressed) {
+                    databmp.WritePixel(position, foregroundColor);
+                } else if (e.RightButton == MouseButtonState.Pressed) {
+                    databmp.WritePixel(position, backgroundColor);
+                }
+            }
+        }
+
+        /// <summary>
         /// Callback for the mouse down event for the <c>Grid</c>.
         /// </summary>
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
         private void Grid_MouseDown (object sender, MouseButtonEventArgs e) {
-            if (Editable) {
-                //...
-            }
+            WritePixelWithMouse(e);
         }
 
         /// <summary>
@@ -205,9 +321,7 @@ namespace Kitsune.Controls {
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
         private void Grid_MouseMove (object sender, MouseEventArgs e) {
-            if (Editable) {
-                //...
-            }
+            WritePixelWithMouse(e);
         }
 
         /// <summary>
@@ -216,9 +330,6 @@ namespace Kitsune.Controls {
         /// <param name="sender">The object where the event handler is attached.</param>
         /// <param name="e">The event data.</param>
         private void Grid_MouseWheel (object sender, MouseWheelEventArgs e) {
-            if (Editable) {
-                //...
-            }
         }
     }
 }
