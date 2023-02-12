@@ -27,7 +27,16 @@ namespace Kitsune.Logic {
     /// <summary>
     /// This static type contains some definitions of the VIC-II palette.
     /// </summary>
-    public static class Palettes {
+    public static class Palette {
+        //------------------------------------------------------------------------
+        // Constants
+        //------------------------------------------------------------------------
+
+        /// <summary>
+        /// The number of colors in the VIC-II palette.
+        /// </summary>
+        public const int NumberOfColors = 16;
+
         //------------------------------------------------------------------------
         // General palettes
         //------------------------------------------------------------------------

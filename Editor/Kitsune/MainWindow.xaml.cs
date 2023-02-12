@@ -89,7 +89,7 @@ namespace Kitsune {
         };
 
         private void Test1_Command (object sender, RoutedEventArgs e) {
-            TilesTabItem.Focus();
+            TestTabItem.Focus();
             currentEditable = false;
 
             currentBitmap = ImageFactory.CreateRGB(320, 200);
@@ -98,7 +98,7 @@ namespace Kitsune {
         }
 
         private void Test2_Command (object sender, RoutedEventArgs e) {
-            TilesTabItem.Focus();
+            TestTabItem.Focus();
             currentEditable = false;
 
             currentBitmap = ImageFactory.CreateIndexed4(320, 200, Controller.Instance.Palette);
@@ -107,7 +107,7 @@ namespace Kitsune {
         }
 
         private void Test3_Command (object sender, RoutedEventArgs e) {
-            TilesTabItem.Focus();
+            TestTabItem.Focus();
             currentEditable = false;
 
             currentBitmap = ImageFactory.CreateIndexed8(320, 200, Controller.Instance.Palette);
@@ -150,7 +150,7 @@ namespace Kitsune {
         }
 
         private void Window_KeyDown (object sender, KeyEventArgs e) {
-            if (TilesTabItem.IsFocused) {
+            if (TestTabItem.IsFocused) {
                 bool updateGrid = false;
 
                 switch (e.Key) {

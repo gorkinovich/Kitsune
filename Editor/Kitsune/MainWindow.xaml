@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kitsune"
         xmlns:content="clr-namespace:Kitsune.Content"
-        xmlns:logic="clr-namespace:Kitsune.Logic"
+        xmlns:kl="clr-namespace:Kitsune.Logic"
         xmlns:kc="clr-namespace:Kitsune.Controls"
         mc:Ignorable="d"
         Title="Kitsune" WindowStartupLocation="CenterScreen" 
@@ -132,34 +132,28 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" Text="Name"
+                        <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="Name"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="10" Text="Description"
+                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="8" Text="Description"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="10"/>
-                        <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="10"
+                        <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="8"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="8"
                                  AcceptsReturn="True" TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto"/>
+                                 VerticalScrollBarVisibility="Auto" Text=""/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem x:Name="TilesTabItem" Header="Tiles">
-                <Grid MouseDown="CurrentTiles_MouseDown" MouseMove="CurrentTiles_MouseMove"
-                      MouseWheel="CurrentTiles_MouseWheel">
-                    <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                    <Image x:Name="TilesGrid" RenderOptions.BitmapScalingMode="HighQuality"/>
-                </Grid>
+            <TabItem Header="Tiles">
+
             </TabItem>
 
             <TabItem Header="Sprites">
-                <kc:BitmapEditor x:Name="CurrentSprite" Editable="True" EnableGrid="True"
-                                 SurfaceWidth="24" SurfaceHeight="21" SurfaceFormat="Indexed"
-                                 GridColor="#FFBB00BB" ForegroundIndex="1" BackgroundIndex="0"/>
+
             </TabItem>
 
             <TabItem Header="Menus">
-                
+
             </TabItem>
 
             <TabItem Header="Levels">
@@ -167,6 +161,24 @@
             </TabItem>
 
             <TabItem Header="Scripts">
+
+            </TabItem>
+
+            <TabItem x:Name="TestTabItem" Header="Test 1">
+                <Grid MouseDown="CurrentTiles_MouseDown" MouseMove="CurrentTiles_MouseMove"
+                      MouseWheel="CurrentTiles_MouseWheel">
+                    <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    <Image x:Name="TilesGrid" RenderOptions.BitmapScalingMode="HighQuality"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Test 2">
+                <kc:BitmapEditor x:Name="CurrentSprite" Editable="True" EnableGrid="True"
+                                 SurfaceWidth="24" SurfaceHeight="21" SurfaceFormat="Indexed"
+                                 GridColor="#FFBB00BB" ForegroundIndex="1" BackgroundIndex="0"/>
+            </TabItem>
+
+            <TabItem Header="Test 3">
                 <kc:TextEditor/>
             </TabItem>
         </TabControl>

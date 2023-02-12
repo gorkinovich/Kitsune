@@ -49,7 +49,7 @@ namespace Kitsune.Logic {
         /// Makes a new object of the class.
         /// </summary>
         public Model () {
-            Palette = Palettes.CCS64();
+            Palette = Logic.Palette.CCS64();
         }
     }
 }
