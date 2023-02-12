@@ -25,7 +25,8 @@
 ;***************************************************************************
 
 ;---------------------------------------------------------------------------
-; Put current color, at memory address $0286, into color RAM, pointed at by memory addresses $00F3-$00F4.
+; Put current color, at memory address $0286, into color RAM, pointed at by
+; memory addresses $00F3-$00F4.
 ;---------------------------------------------------------------------------
 
 defm SCREEN_PUTCOLOR    ; col
