@@ -3,10 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Kitsune"
              StartupUri="MainWindow.xaml">
+    <!-- ==================== Resources of the application ==================== -->
     <Application.Resources>
-        <SolidColorBrush x:Key="MainBackColor" Color="#FFF0F0F0"/>
-        <SolidColorBrush x:Key="TabSelectedColor" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="TabUnselectedColor" Color="#FFF0F0F0"/>
-        <SolidColorBrush x:Key="TabBorderColor" Color="#FFACACAC"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/ColorStyle.xaml"/>
+                <ResourceDictionary Source="Theme/EditorStyle.xaml"/>
+                <ResourceDictionary Source="Theme/MenuStyle.xaml"/>
+                <ResourceDictionary Source="Theme/MenuItemStyle.xaml"/>
+                <ResourceDictionary Source="Theme/ToolBarTrayStyle.xaml"/>
+                <ResourceDictionary Source="Theme/ToolBarStyle.xaml"/>
+                <ResourceDictionary Source="Theme/StatusBarStyle.xaml"/>
+                <ResourceDictionary Source="Theme/StatusBarItemStyle.xaml"/>
+                <ResourceDictionary Source="Theme/TabControlStyle.xaml"/>
+                <ResourceDictionary Source="Theme/TabItemStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

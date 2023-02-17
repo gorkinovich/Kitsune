@@ -5,41 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kitsune"
         xmlns:content="clr-namespace:Kitsune.Content"
-        xmlns:kl="clr-namespace:Kitsune.Logic"
         xmlns:kc="clr-namespace:Kitsune.Controls"
         mc:Ignorable="d"
-        Title="Kitsune" WindowStartupLocation="CenterScreen" 
-        Height="600" Width="800" Background="{StaticResource MainBackColor}"
+        Title="Kitsune" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBackground}"
         Closing="Window_Closing" KeyDown="Window_KeyDown">
     <!-- ==================== Resources of the window ==================== -->
     <Window.Resources>
-        <!-- ==================== Styles of the window ==================== -->
-        <Style TargetType="TabItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TabItem">
-                        <Border Name="Border" BorderThickness="1,1,1,0" CornerRadius="5,5,0,0"
-                                BorderBrush="{StaticResource TabBorderColor}" Margin="2,0">
-                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
-                                              HorizontalAlignment="Center" ContentSource="Header"
-                                              Margin="10,2"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background"
-                                        Value="{StaticResource TabSelectedColor}"/>
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Border" Property="Background"
-                                        Value="{StaticResource TabUnselectedColor}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- ==================== Commands of the window ==================== -->
         <RoutedUICommand x:Key="New" Text="{x:Static content:Resources.MI_FileNew}">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+N</KeyGesture>
@@ -97,29 +70,59 @@
 
     <!-- ==================== Controls of the window ==================== -->
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="{x:Static content:Resources.MI_File}"
-                      ToolTip="{x:Static content:Resources.TT_File}">
-                <MenuItem Command="{Binding Source={StaticResource New}}"/>
-                <MenuItem Command="{Binding Source={StaticResource Open}}"/>
-                <MenuItem Command="{Binding Source={StaticResource Save}}"/>
-                <Separator/>
-                <MenuItem Command="{Binding Source={StaticResource Exit}}"/>
-            </MenuItem>
-            <MenuItem Header="Tests">
-                <MenuItem Command="{Binding Source={StaticResource Test1}}"/>
-                <MenuItem Command="{Binding Source={StaticResource Test2}}"/>
-                <MenuItem Command="{Binding Source={StaticResource Test3}}"/>
-            </MenuItem>
-        </Menu>
-        
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
+                <MenuItem Header="{x:Static content:Resources.MI_File}"
+                          ToolTip="{x:Static content:Resources.TT_File}">
+                    <MenuItem Command="{Binding Source={StaticResource New}}"/>
+                    <MenuItem Command="{Binding Source={StaticResource Open}}"/>
+                    <MenuItem Command="{Binding Source={StaticResource Save}}"/>
+                    <Separator/>
+                    <MenuItem Command="{Binding Source={StaticResource Exit}}"/>
+                </MenuItem>
+                <MenuItem Header="Tests">
+                    <MenuItem Command="{Binding Source={StaticResource Test1}}"/>
+                    <MenuItem Command="{Binding Source={StaticResource Test2}}"/>
+                    <MenuItem Command="{Binding Source={StaticResource Test3}}"/>
+                    <Separator/>
+                    <MenuItem Header="Disabled" IsEnabled="False"/>
+                    <MenuItem Header="Enable" IsEnabled="True"/>
+                </MenuItem>
+            </Menu>
+            
+            <ToolBarTray>
+                <ToolBar>
+                    <Button>Option 1</Button>
+                    <Button>Option 2</Button>
+                    <Button>Option 3</Button>
+                    <Button>Option 4</Button>
+                    <Button>Option 5</Button>
+                    <Button>Option 6</Button>
+                    <Button>Option 7</Button>
+                    <Button>Option 8</Button>
+                    <Button>Option 9</Button>
+                    <Button>Option 10</Button>
+                    <Button>Option 11</Button>
+                    <Button>Option 12</Button>
+                    <Button>Option 13</Button>
+                    <Button>Option 14</Button>
+                    <Button>Option 15</Button>
+                    <Button>Option 16</Button>
+                    <Button>Option 17</Button>
+                    <Button>Option 18</Button>
+                    <Button>Option 19</Button>
+                    <Button>Option 20</Button>
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
+
         <StatusBar DockPanel.Dock="Bottom" Height="22">
             <StatusBarItem>
                 <TextBlock x:Name="StatusBarText">Commodore 64 game engine and tools</TextBlock>
             </StatusBarItem>
         </StatusBar>
 
-        <TabControl Margin="1" Background="{StaticResource MainBackColor}">
+        <TabControl>
             <TabItem Header="Project">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
