@@ -13,25 +13,25 @@
         Closing="Window_Closing" KeyDown="Window_KeyDown">
     <!-- ==================== Resources of the window ==================== -->
     <Window.Resources>
-        <RoutedUICommand x:Key="New" Text="{x:Static content:Resources.MI_FileNew}">
+        <RoutedUICommand x:Key="New">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+N</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
 
-        <RoutedUICommand x:Key="Open" Text="{x:Static content:Resources.MI_FileOpen}">
+        <RoutedUICommand x:Key="Open">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+O</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
 
-        <RoutedUICommand x:Key="Save" Text="{x:Static content:Resources.MI_FileSave}">
+        <RoutedUICommand x:Key="Save">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+S</KeyGesture>
             </RoutedUICommand.InputGestures>
         </RoutedUICommand>
 
-        <RoutedUICommand x:Key="Exit" Text="{x:Static content:Resources.MI_FileExit}">
+        <RoutedUICommand x:Key="Exit">
             <RoutedUICommand.InputGestures>
                 <KeyGesture>CTRL+Q</KeyGesture>
             </RoutedUICommand.InputGestures>
@@ -56,6 +56,13 @@
         </RoutedUICommand>
     </Window.Resources>
 
+    <!-- ==================== Inputs of the window ==================== -->
+    <!--
+    <Window.InputBindings>
+        <KeyBinding Command="{StaticResource New}" Key="N" Modifiers="Ctrl"/>
+    </Window.InputBindings>
+    -->
+
     <!-- ==================== Events of the window ==================== -->
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource New}" Executed="FileNew_Command"/>
@@ -72,13 +79,32 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
-                <MenuItem Header="{x:Static content:Resources.MI_File}"
-                          ToolTip="{x:Static content:Resources.TT_File}">
-                    <MenuItem Command="{Binding Source={StaticResource New}}"/>
-                    <MenuItem Command="{Binding Source={StaticResource Open}}"/>
-                    <MenuItem Command="{Binding Source={StaticResource Save}}"/>
+                <MenuItem Header="{x:Static content:Resources.MI_File}">
+                    <MenuItem Header="{x:Static content:Resources.MI_FileNew}"
+                              Command="{Binding Source={StaticResource New}}">
+                        <MenuItem.Icon>
+                            <Image Source="Content/NewIcon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static content:Resources.MI_FileOpen}"
+                              Command="{Binding Source={StaticResource Open}}">
+                        <MenuItem.Icon>
+                            <Image Source="Content/OpenIcon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static content:Resources.MI_FileSave}"
+                              Command="{Binding Source={StaticResource Save}}">
+                        <MenuItem.Icon>
+                            <Image Source="Content/SaveIcon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <Separator/>
-                    <MenuItem Command="{Binding Source={StaticResource Exit}}"/>
+                    <MenuItem Header="{x:Static content:Resources.MI_FileExit}"
+                              Command="{Binding Source={StaticResource Exit}}">
+                        <MenuItem.Icon>
+                            <Image Source="Content/ExitIcon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Tests">
                     <MenuItem Command="{Binding Source={StaticResource Test1}}"/>
@@ -90,28 +116,56 @@
                 </MenuItem>
             </Menu>
             
-            <ToolBarTray>
-                <ToolBar>
-                    <Button>Option 1</Button>
-                    <Button>Option 2</Button>
-                    <Button>Option 3</Button>
-                    <Button>Option 4</Button>
-                    <Button>Option 5</Button>
-                    <Button>Option 6</Button>
-                    <Button>Option 7</Button>
-                    <Button>Option 8</Button>
-                    <Button>Option 9</Button>
-                    <Button>Option 10</Button>
-                    <Button>Option 11</Button>
-                    <Button>Option 12</Button>
-                    <Button>Option 13</Button>
-                    <Button>Option 14</Button>
-                    <Button>Option 15</Button>
-                    <Button>Option 16</Button>
-                    <Button>Option 17</Button>
-                    <Button>Option 18</Button>
-                    <Button>Option 19</Button>
-                    <Button>Option 20</Button>
+            <ToolBarTray IsLocked="True">
+                <ToolBar x:Name="GeneralToolBar">
+                    <Button ToolTip="{x:Static content:Resources.TT_New}">
+                        <Image Source="Content/NewIcon.png"/>
+                    </Button>
+                    <Button>
+                        <Image Source="Content/OpenIcon.png"/>
+                    </Button>
+                    <Button>
+                        <Image Source="Content/SaveIcon.png"/>
+                    </Button>
+                    <Separator/>
+                    <Button>
+                        <Image Source="Content/CutIcon.png"/>
+                    </Button>
+                    <Button>
+                        <Image Source="Content/CopyIcon.png"/>
+                    </Button>
+                    <Button>
+                        <Image Source="Content/PasteIcon.png"/>
+                    </Button>
+                    <Separator/>
+                    <Button>
+                        <Image Source="Content/UndoIcon.png"/>
+                    </Button>
+                    <Button>
+                        <Image Source="Content/RedoIcon.png"/>
+                    </Button>
+                </ToolBar>
+                <ToolBar x:Name="TestToolBar">
+                    <Button>Select</Button>
+                    <Button>Small Brush</Button>
+                    <Button>Large Brush</Button>
+                    <Button>Picker</Button>
+                    <Button>Fill Brush</Button>
+                    <Button>Slide Up</Button>
+                    <Button>Slide Down</Button>
+                    <Button>Slide Left</Button>
+                    <Button>Slide Right</Button>
+                    <Button>Flip Horizontal</Button>
+                    <Button>Flip Vertical</Button>
+                    <Button>Reflect Horizontal</Button>
+                    <Button>Reflect Vertical</Button>
+                    <Button>Rotation</Button>
+                    <Button>Make Animation</Button>
+                    <Button>Play</Button>
+                    <Button>Stop</Button>
+                    <Button>Zoom In</Button>
+                    <Button>Zoom Out</Button>
+                    <Button>Show Grid</Button>
                 </ToolBar>
             </ToolBarTray>
         </StackPanel>
@@ -152,7 +206,18 @@
             </TabItem>
 
             <TabItem Header="Sprites">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header=" Current Sprite " Grid.Column="0" Margin="1">
 
+                    </GroupBox>
+                    <GroupBox Header=" Sprite Library " Grid.Column="1" Margin="1">
+
+                    </GroupBox>
+                </Grid>
             </TabItem>
 
             <TabItem Header="Menus">

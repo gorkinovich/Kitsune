@@ -37,6 +37,28 @@ namespace Kitsune.Logic {
         /// </summary>
         public const int NumberOfColors = 16;
 
+        /// <summary>
+        /// This enumeration represents the indexes of the colors in the palette.
+        /// </summary>
+        public enum ColorIndex : byte {
+            Black = 0,
+            White = 1,
+            Red = 2,
+            Cyan = 3,
+            Purple = 4,
+            Green = 5,
+            Blue = 6,
+            Yellow = 7,
+            Orange = 8,
+            Brown = 9,
+            LightRed = 10,
+            DarkGrey = 11,
+            Grey = 12,
+            LightGreen = 13,
+            LightBlue = 14,
+            LightGrey = 15
+        }
+
         //------------------------------------------------------------------------
         // General palettes
         //------------------------------------------------------------------------
@@ -209,11 +231,9 @@ namespace Kitsune.Logic {
         /// <param name="values">The array with the colors to transform.</param>
         /// <returns>The new array of Color objects.</returns>
         public static Color[] FromUInt32 (uint[] values) {
-            var colors = new Color[values.Length * 2];
+            var colors = new Color[values.Length];
             for (int i = 0; i < values.Length; i++) {
                 colors[i] = FromUInt32(values[i]);
-                colors[i + values.Length] = colors[i];
-                colors[i + values.Length].A = 0;
             }
             return colors;
         }

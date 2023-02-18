@@ -48,6 +48,10 @@ namespace Kitsune {
             InitializeComponent();
             CurrentSprite.SurfacePalette = Controller.Instance.Palette;
             CurrentSprite.GenerateBitmaps();
+
+            //var kgc = new KeyGestureConverter();
+            //var kg = kgc.ConvertFromInvariantString("ctrl+a") as KeyGesture;
+            //StatusBarText.Text = $"{kg}: {kg.Modifiers}+{kg.Key}; \"{kg.DisplayString}\"";
         }
 
         private void FileNew_Command (object sender, RoutedEventArgs e) {

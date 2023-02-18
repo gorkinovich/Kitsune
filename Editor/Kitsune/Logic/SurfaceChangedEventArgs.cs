@@ -21,49 +21,26 @@
 //================================================================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace Kitsune.Logic {
     /// <summary>
-    /// The Kitsune editor controller.
+    /// This class represents an event that occurs when a bitmap is modified.
     /// </summary>
-    public class Controller {
+    public class SurfaceChangedEventArgs : EventArgs {
         //------------------------------------------------------------------------
-        // Fields
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// The main instance of the controller.
-        /// </summary>
-        private static Controller instance = new Controller();
-
-        /// <summary>
-        /// The current data of the
-        /// </summary>
-        private Model model = new Model();
-
-        //------------------------------------------------------------------------
-        // Properties
+        // Fields & Properties
         //------------------------------------------------------------------------
 
         /// <summary>
-        /// Gets the main instance of the controller.
+        /// Gets the area changed in the bitmap.
         /// </summary>
-        public static Controller Instance => instance;
+        public Int32Rect Area { get; init; }
 
         /// <summary>
-        /// Gets if the current data has been modified.
+        /// Gets the changed bitmap of the event.
         /// </summary>
-        public bool Modified { get; private set; }
-
-        /// <summary>
-        /// Gets the main palette of the C64.
-        /// </summary>
-        public BitmapPalette Palette => model.Palette;
+        public GenericSurface Surface { get; init; }
 
         //------------------------------------------------------------------------
         // Constructors
@@ -72,12 +49,18 @@ namespace Kitsune.Logic {
         /// <summary>
         /// Makes a new object of the class.
         /// </summary>
-        private Controller () {
+        public SurfaceChangedEventArgs () {
         }
 
-        //------------------------------------------------------------------------
-        // Methods
-        //------------------------------------------------------------------------
-
+        /// <summary>
+        /// Makes a new object of the class.
+        /// </summary>
+        /// <param name="x">The x-coordinate changed in the bitmap.</param>
+        /// <param name="y">The y-coordinate changed in the bitmap.</param>
+        /// <param name="surface">The changed bitmap of the event.</param>
+        public SurfaceChangedEventArgs (int x, int y, GenericSurface surface) {
+            Area = new Int32Rect(x, y, 1, 1);
+            Surface = surface;
+        }
     }
 }

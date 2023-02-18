@@ -20,64 +20,43 @@
 // SOFTWARE.
 //================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-
 namespace Kitsune.Logic {
     /// <summary>
-    /// The Kitsune editor controller.
+    /// This static type represents a collections of tools for geometry.
     /// </summary>
-    public class Controller {
+    public static class Geometry {
         //------------------------------------------------------------------------
-        // Fields
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// The main instance of the controller.
-        /// </summary>
-        private static Controller instance = new Controller();
-
-        /// <summary>
-        /// The current data of the
-        /// </summary>
-        private Model model = new Model();
-
-        //------------------------------------------------------------------------
-        // Properties
+        // Methods (Check)
         //------------------------------------------------------------------------
 
         /// <summary>
-        /// Gets the main instance of the controller.
+        /// Checks if some coordinates are inside a rectangular area.
         /// </summary>
-        public static Controller Instance => instance;
-
-        /// <summary>
-        /// Gets if the current data has been modified.
-        /// </summary>
-        public bool Modified { get; private set; }
-
-        /// <summary>
-        /// Gets the main palette of the C64.
-        /// </summary>
-        public BitmapPalette Palette => model.Palette;
-
-        //------------------------------------------------------------------------
-        // Constructors
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// Makes a new object of the class.
-        /// </summary>
-        private Controller () {
+        /// <param name="x">The x-coordinate to check.</param>
+        /// <param name="y">The y-coordinate to check.</param>
+        /// <param name="width">The width of the area to check.</param>
+        /// <param name="height">The height of the area to check.</param>
+        /// <returns><c>true</c> when the coordinates are inside the area;
+        /// otherwise <c>false</c>.</returns>
+        public static bool IsInside (int x, int y, int width, int height) {
+            return 0 <= x && x < width && 0 <= x && x < height;
         }
 
-        //------------------------------------------------------------------------
-        // Methods
-        //------------------------------------------------------------------------
-
+        /// <summary>
+        /// Checks if some coordinates are inside a rectangular area.
+        /// </summary>
+        /// <param name="x">The x-coordinate to check.</param>
+        /// <param name="y">The y-coordinate to check.</param>
+        /// <param name="areaX">The x-coordinate of the area to check.</param>
+        /// <param name="areaY">The y-coordinate of the area to check.</param>
+        /// <param name="areaWidth">The width of the area to check.</param>
+        /// <param name="areaHeight">The height of the area to check.</param>
+        /// <returns><c>true</c> when the coordinates are inside the area;
+        /// otherwise <c>false</c>.</returns>
+        public static bool IsInside (int x, int y, int areaX, int areaY,
+            int areaWidth, int areaHeight) {
+            return areaX <= x && x < areaX + areaWidth
+                && areaY <= x && x < areaY + areaHeight;
+        }
     }
 }

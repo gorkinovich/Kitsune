@@ -20,17 +20,11 @@
 // SOFTWARE.
 //================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Kitsune.Logic {
     /// <summary>
     /// This class represents a Commodore 64 sprite bitmap.
     /// </summary>
-    public class SpriteSurface {
+    public class SpriteSurface : GenericSurface {
         //------------------------------------------------------------------------
         // Constants
         //------------------------------------------------------------------------
@@ -38,84 +32,22 @@ namespace Kitsune.Logic {
         /// <summary>
         /// The width in pixels of a sprite bitmap.
         /// </summary>
-        public const int Width = 24;
+        public const int DefaultWidth = 24;
 
         /// <summary>
         /// The height in pixels of a sprite bitmap.
         /// </summary>
-        public const int Height = 21;
-
-        /// <summary>
-        /// The size in bytes of the pixels of a sprite bitmap.
-        /// </summary>
-        public const int Size = 63;
-
-        /// <summary>
-        /// The transparent color value of a sprite bitmap.
-        /// </summary>
-        public const int TransparentColor = 0;
-
-        /// <summary>
-        /// The sprite color value of a sprite bitmap.
-        /// </summary>
-        public const int SpriteColor = 1;
-
-        /// <summary>
-        /// The first multi-color value of a sprite bitmap.
-        /// </summary>
-        public const int FirstMultiColor = 2;
-
-        /// <summary>
-        /// The second multi-color value of a sprite bitmap.
-        /// </summary>
-        public const int SecondMultiColor = 3;
+        public const int DefaultHeight = 21;
 
         //------------------------------------------------------------------------
-        // Fields & Properties
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// The pixels of the sprite surface.
-        /// </summary>
-        private byte[] pixels = new byte[Size];
-
-        /// <summary>
-        /// The main color of the sprite surface.
-        /// </summary>
-        private byte color = 0;
-
-        /// <summary>
-        /// Gets or sets the main color of the sprite surface.
-        /// </summary>
-        public byte Color {
-            get => color;
-            set => color = (byte) (value < Palette.NumberOfColors ? value : 0);
-        }
-
-        /// <summary>
-        /// The multi-color flag of the sprite surface.
-        /// </summary>
-        public bool IsMultiColor { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets a pixel of the sprite surface.
-        /// </summary>
-        /// <param name="x">The x-coordinate in the sprite.</param>
-        /// <param name="y">The y-coordinate in the sprite.</param>
-        /// <returns>The pixel in the coordinates.</returns>
-        public byte this[int x, int y] {
-            get => SurfaceTools.GetPixel(x, y, pixels, Width, Height, IsMultiColor);
-            set => SurfaceTools.SetPixel(x, y, value, pixels, Width, Height, IsMultiColor);
-        }
-
-        //------------------------------------------------------------------------
-        // Methods
+        // Constructors
         //------------------------------------------------------------------------
 
         /// <summary>
         /// Makes a new object of the class.
         /// </summary>
-        public SpriteSurface () {
-        }
+        /// <param name="multiColor">The multi-color mode of the bitmap.</param>
+        public SpriteSurface (bool multiColor = false)
+            : base(DefaultWidth, DefaultHeight, multiColor) {}
     }
 }

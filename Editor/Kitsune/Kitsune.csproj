@@ -8,6 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\CopyIcon.png" />
+    <None Remove="Content\CutIcon.png" />
+    <None Remove="Content\ExitIcon.png" />
+    <None Remove="Content\FontSmall.png" />
+    <None Remove="Content\FontUpper.png" />
+    <None Remove="Content\NewIcon.png" />
+    <None Remove="Content\OpenIcon.png" />
+    <None Remove="Content\PasteIcon.png" />
+    <None Remove="Content\RedoIcon.png" />
+    <None Remove="Content\SaveIcon.png" />
+    <None Remove="Content\UndoIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Content\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -23,6 +37,20 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\CopyIcon.png" />
+    <Resource Include="Content\CutIcon.png" />
+    <Resource Include="Content\ExitIcon.png" />
+    <Resource Include="Content\FontSmall.png" />
+    <Resource Include="Content\FontUpper.png" />
+    <Resource Include="Content\NewIcon.png" />
+    <Resource Include="Content\OpenIcon.png" />
+    <Resource Include="Content\PasteIcon.png" />
+    <Resource Include="Content\RedoIcon.png" />
+    <Resource Include="Content\SaveIcon.png" />
+    <Resource Include="Content\UndoIcon.png" />
   </ItemGroup>
 
 </Project>

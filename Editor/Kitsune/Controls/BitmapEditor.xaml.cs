@@ -216,7 +216,7 @@ namespace Kitsune.Controls {
         }
 
         //------------------------------------------------------------------------
-        // Methods
+        // Constructors
         //------------------------------------------------------------------------
 
         /// <summary>
@@ -225,6 +225,10 @@ namespace Kitsune.Controls {
         public BitmapEditor () {
             InitializeComponent();
         }
+
+        //------------------------------------------------------------------------
+        // Methods
+        //------------------------------------------------------------------------
 
         /// <summary>
         /// Sets the bitmap scaling mode of the bitmap data.

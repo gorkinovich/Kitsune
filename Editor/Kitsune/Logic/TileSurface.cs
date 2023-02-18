@@ -20,50 +20,24 @@
 // SOFTWARE.
 //================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-
 namespace Kitsune.Logic {
     /// <summary>
-    /// The Kitsune editor controller.
+    /// This class represents a Commodore 64 tile bitmap.
     /// </summary>
-    public class Controller {
+    public class TileSurface : GenericSurface {
         //------------------------------------------------------------------------
-        // Fields
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// The main instance of the controller.
-        /// </summary>
-        private static Controller instance = new Controller();
-
-        /// <summary>
-        /// The current data of the
-        /// </summary>
-        private Model model = new Model();
-
-        //------------------------------------------------------------------------
-        // Properties
+        // Constants
         //------------------------------------------------------------------------
 
         /// <summary>
-        /// Gets the main instance of the controller.
+        /// The width in pixels of a tile bitmap.
         /// </summary>
-        public static Controller Instance => instance;
+        public const int DefaultWidth = 8;
 
         /// <summary>
-        /// Gets if the current data has been modified.
+        /// The height in pixels of a tile bitmap.
         /// </summary>
-        public bool Modified { get; private set; }
-
-        /// <summary>
-        /// Gets the main palette of the C64.
-        /// </summary>
-        public BitmapPalette Palette => model.Palette;
+        public const int DefaultHeight = 8;
 
         //------------------------------------------------------------------------
         // Constructors
@@ -72,12 +46,8 @@ namespace Kitsune.Logic {
         /// <summary>
         /// Makes a new object of the class.
         /// </summary>
-        private Controller () {
-        }
-
-        //------------------------------------------------------------------------
-        // Methods
-        //------------------------------------------------------------------------
-
+        /// <param name="multiColor">The multi-color mode of the bitmap.</param>
+        public TileSurface (bool multiColor = false)
+            : base(DefaultWidth, DefaultHeight, multiColor) { }
     }
 }

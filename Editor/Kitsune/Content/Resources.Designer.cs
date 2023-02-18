@@ -19,7 +19,7 @@ namespace Kitsune.Content {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -57,6 +57,26 @@ namespace Kitsune.Content {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] FontSmall {
+            get {
+                object obj = ResourceManager.GetObject("FontSmall", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] FontUpper {
+            get {
+                object obj = ResourceManager.GetObject("FontUpper", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -124,11 +144,11 @@ namespace Kitsune.Content {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File and projects commands.
+        ///   Looks up a localized string similar to Creates a new game project.
         /// </summary>
-        public static string TT_File {
+        public static string TT_New {
             get {
-                return ResourceManager.GetString("TT_File", resourceCulture);
+                return ResourceManager.GetString("TT_New", resourceCulture);
             }
         }
     }
