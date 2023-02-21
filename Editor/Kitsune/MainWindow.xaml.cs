@@ -138,8 +138,8 @@ namespace Kitsune {
         private void CurrentTiles_MouseMove (object sender, MouseEventArgs e) {
             var position = CurrentTiles.GetSourceCoordinates(e);
             CurrentTilesChange(position, e.LeftButton, e.RightButton);
-            StatusBarText.Text = $"Drawing in ({position.X}, {position.Y}) of "
-                + $" ({CurrentTiles.Source.Width}, {CurrentTiles.Source.Height})";
+            //StatusBarText.Text = $"Drawing in ({position.X}, {position.Y}) of "
+            //    + $" ({CurrentTiles.Source.Width}, {CurrentTiles.Source.Height})";
         }
 
         private void CurrentTiles_MouseWheel (object sender, MouseWheelEventArgs e) {

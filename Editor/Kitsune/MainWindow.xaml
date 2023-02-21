@@ -11,6 +11,11 @@
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource WindowBackground}"
         Closing="Window_Closing" KeyDown="Window_KeyDown">
+    <!-- ==================== Data context of the window ==================== -->
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    
     <!-- ==================== Resources of the window ==================== -->
     <Window.Resources>
         <RoutedUICommand x:Key="New">
@@ -177,7 +182,7 @@
         </StatusBar>
 
         <TabControl>
-            <TabItem Header="Project">
+            <TabItem x:Name="ProjectTab" Header="Project">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <Grid>
@@ -189,30 +194,66 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Grid.Row="0" Margin="8" Text="Name"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Margin="8" Text="Description"
+
+                        <TextBlock Text="Name" Grid.Column="0" Grid.Row="0" Margin="8"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="0" Height="25" Margin="8"/>
+
+                        <TextBlock Text="Description" Grid.Column="0" Grid.Row="1" Margin="8"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBox Grid.Column="1" Grid.Row="1" Height="100" Margin="8"
                                  AcceptsReturn="True" TextWrapping="Wrap"
-                                 VerticalScrollBarVisibility="Auto" Text=""/>
+                                 VerticalScrollBarVisibility="Auto"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Tiles">
+            <TabItem x:Name="FontsTab" Header="Fonts">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header=" Fonts " Grid.Column="0" Margin="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="42"/>
+                            </Grid.RowDefinitions>
+                            <ListBox x:Name="FontsListBox" Grid.Column="0"
+                                     Grid.Row="0" Grid.ColumnSpan="2"
+                                     Margin="4" ItemsSource="{Binding Fonts}"/>
+                            <Button Content="Add" Margin="4"
+                                    Grid.Column="0" Grid.Row="1"
+                                    Command="{Binding AddFontCommand}"/>
+                            <Button Content="Remove" Margin="4"
+                                    Grid.Column="1" Grid.Row="1"
+                                    Command="{Binding RemoveFontCommand}"
+                                    CommandParameter="{Binding ElementName=FontsListBox,Path=SelectedValue}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="TilesTab" Header="Tiles">
 
             </TabItem>
 
-            <TabItem Header="Sprites">
+            <TabItem x:Name="SpritesTab" Header="Sprites">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <GroupBox Header=" Current Sprite " Grid.Column="0" Margin="1">
-
+                        <kc:BitmapEditor x:Name="CurrentSprite" Editable="True" EnableGrid="True"
+                                 SurfaceWidth="24" SurfaceHeight="21" SurfaceFormat="Indexed"
+                                 GridColor="#FFBB00BB" ForegroundIndex="1" BackgroundIndex="0"/>
                     </GroupBox>
                     <GroupBox Header=" Sprite Library " Grid.Column="1" Margin="1">
 
@@ -220,16 +261,20 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Menus">
+            <TabItem x:Name="LevelsTab" Header="Levels">
 
             </TabItem>
 
-            <TabItem Header="Levels">
+            <TabItem x:Name="MenusTab" Header="Menus">
 
             </TabItem>
 
-            <TabItem Header="Scripts">
+            <TabItem x:Name="StringsTab" Header="Strings">
+                <DataGrid x:Name="StringsGrid" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            </TabItem>
 
+            <TabItem x:Name="ScriptsTab" Header="Scripts">
+                <kc:TextEditor/>
             </TabItem>
 
             <TabItem x:Name="TestTabItem" Header="Test 1">
@@ -238,16 +283,6 @@
                     <Image x:Name="CurrentTiles" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                     <Image x:Name="TilesGrid" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Grid>
-            </TabItem>
-
-            <TabItem Header="Test 2">
-                <kc:BitmapEditor x:Name="CurrentSprite" Editable="True" EnableGrid="True"
-                                 SurfaceWidth="24" SurfaceHeight="21" SurfaceFormat="Indexed"
-                                 GridColor="#FFBB00BB" ForegroundIndex="1" BackgroundIndex="0"/>
-            </TabItem>
-
-            <TabItem Header="Test 3">
-                <kc:TextEditor/>
             </TabItem>
         </TabControl>
     </DockPanel>

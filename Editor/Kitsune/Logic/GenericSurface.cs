@@ -179,7 +179,7 @@ namespace Kitsune.Logic {
                 color = ClampColor(color);
                 var (index, offset) = GetIndexAndOffset(x, y);
                 pixels[index] = SetPixel(pixels[index], offset, color, MultiColor);
-                Changed(this, new SurfaceChangedEventArgs(x, y, this));
+                Changed?.Invoke(this, new SurfaceChangedEventArgs(x, y, this));
             }
         }
 

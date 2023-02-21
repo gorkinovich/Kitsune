@@ -25,36 +25,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
-namespace Kitsune.Logic {
-    /// <summary>
-    /// The Kitsune editor model data.
-    /// </summary>
-    public class Model {
-        //------------------------------------------------------------------------
-        // Properties
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// Gets or sets the main palette of the C64.
-        /// </summary>
-        public BitmapPalette Palette { get; set; }
-
-        //------------------------------------------------------------------------
-        // Constructors
-        //------------------------------------------------------------------------
-
-        /// <summary>
-        /// Makes a new object of the class.
-        /// </summary>
-        public Model () {
-            Palette = Logic.Palette.CCS64();
+namespace Kitsune {
+    public partial class MainViewModel : ObservableObject {
+        public MainViewModel () {
+            Fonts = new ObservableCollection<string>();
         }
 
-        //------------------------------------------------------------------------
-        // Methods
-        //------------------------------------------------------------------------
+        private int counter = 1;
 
+        [ObservableProperty]
+        ObservableCollection<string> fonts;
+
+        [RelayCommand]
+        void AddFont () {
+            Fonts.Add($"Text {counter++}");
+        }
+
+        [RelayCommand]
+        void RemoveFont (object selectedValue) {
+            if (selectedValue is string victim && Fonts.Contains(victim)) {
+                Fonts.Remove(victim);
+            }
+        }
     }
 }

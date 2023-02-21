@@ -41,11 +41,6 @@ namespace Kitsune.Logic {
         /// </summary>
         private static Controller instance = new Controller();
 
-        /// <summary>
-        /// The current data of the
-        /// </summary>
-        private Model model = new Model();
-
         //------------------------------------------------------------------------
         // Properties
         //------------------------------------------------------------------------
@@ -61,9 +56,9 @@ namespace Kitsune.Logic {
         public bool Modified { get; private set; }
 
         /// <summary>
-        /// Gets the main palette of the C64.
+        /// Gets or sets the main palette of the C64.
         /// </summary>
-        public BitmapPalette Palette => model.Palette;
+        public BitmapPalette Palette { get; set; }
 
         //------------------------------------------------------------------------
         // Constructors
@@ -73,6 +68,7 @@ namespace Kitsune.Logic {
         /// Makes a new object of the class.
         /// </summary>
         private Controller () {
+            Palette = Logic.Palette.CCS64();
         }
 
         //------------------------------------------------------------------------
